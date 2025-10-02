@@ -88,13 +88,6 @@ The game is fully responsive and optimized for:
 - **Tablet**: Touch-friendly interface with on-screen keyboard
 - **Mobile**: Optimized layout with haptic feedback
 
-## 🎵 Audio Features
-
-- **Key Press**: Pleasant click sound for each keystroke
-- **Correct Answer**: Success chime for correct riddles
-- **Wrong Answer**: Error buzz for incorrect answers
-- **Web Audio API**: Modern browser-based sound generation
-
 ## 📊 Game Mechanics
 
 ### Scoring System
@@ -104,18 +97,6 @@ The game is fully responsive and optimized for:
 ### Timer System
 - **Initial Time**: 30 seconds per game , user can also choose between 30 ,45 , 60 seconds
 - **Maximum Time**: 60 seconds (prevents infinite gameplay)
-
-### Difficulty Progression
-- 8 built-in riddle sets with varying difficulty
-- Words progress from simple to complex themes
-- Riddles require logical thinking and pattern recognition
-
-## 🚀 Deployment
-
-### Deploy to Netlify
-1. Build the project: `npm run build`
-2. Drag the `build` folder to Netlify
-3. Add environment variables in Netlify dashboard
 
 ## 🔧 Customization
 
@@ -147,25 +128,9 @@ Modify `tailwind.config.js` to change:
 - Responsive breakpoints
 - Custom components
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature-name`
-3. Commit changes: `git commit -am 'Add feature'`
-4. Push to branch: `git push origin feature-name`
-5. Submit a pull request
-
 ## 📄 License
 
 This project is open source and available under the [MIT License](LICENSE).
-
-## 🙏 Acknowledgments
-
-- **React Team** for the amazing framework
-- **Tailwind CSS** for the utility-first CSS framework
-- **Framer Motion** for smooth animations
-- **Supabase** for the backend-as-a-service platform
-- **Create React App** for the development setup
 
 ## 🔒 Security
 

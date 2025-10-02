@@ -55,26 +55,7 @@ npm install
 2. Go to your project dashboard
 3. Navigate to **SQL Editor** and run this query to create the leaderboard table:
 
-```sql
-CREATE TABLE leaderboard (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  name TEXT NOT NULL,
-  score INTEGER NOT NULL,
-  time TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
 
--- Create an index for better performance
-CREATE INDEX idx_leaderboard_score ON leaderboard(score DESC, time ASC);
-
--- Enable Row Level Security (optional but recommended)
-ALTER TABLE leaderboard ENABLE ROW LEVEL SECURITY;
-
--- Create a policy to allow anyone to read and insert scores
-CREATE POLICY "Anyone can view leaderboard" ON leaderboard
-  FOR SELECT USING (true);
-
-CREATE POLICY "Anyone can insert scores" ON leaderboard
-  FOR INSERT WITH CHECK (true);
 ```
 
 4. Get your project URL and anon key from **Settings > API**
@@ -99,14 +80,6 @@ npm start
 
 The game will open at `http://localhost:3000`
 
-## 🎨 Design System
-
-The game uses a carefully crafted color palette:
-
-- **Primary**: `#146C94` (Deep Blue)
-- **Secondary**: `#19A7CE` (Light Blue)
-- **Accent**: `#AFD3E2` (Pale Blue)
-- **Background**: `#F6F1F1` (Light Gray)
 
 ## 📱 Responsive Design
 
@@ -125,13 +98,11 @@ The game is fully responsive and optimized for:
 ## 📊 Game Mechanics
 
 ### Scoring System
-- **Correct Riddle**: +10 points
-- **Wrong Answer**: 0 points
-- **Time Bonus**: Extra time for correct answers
+- **Correct Riddle**: +20 points
+- **Wrong Answer**: -3 points
 
 ### Timer System
-- **Initial Time**: 30 seconds per game
-- **Bonus Time**: +10 seconds for correct riddle answers
+- **Initial Time**: 30 seconds per game , user can also choose between 30 ,45 , 60 seconds
 - **Maximum Time**: 60 seconds (prevents infinite gameplay)
 
 ### Difficulty Progression
@@ -139,35 +110,12 @@ The game is fully responsive and optimized for:
 - Words progress from simple to complex themes
 - Riddles require logical thinking and pattern recognition
 
-## 🗂 Project Structure
-
-```
-src/
-├── components/
-│   ├── Keyboard.jsx          # Visual QWERTY keyboard component
-│   ├── WordDisplay.jsx       # Word display with typing progress
-│   ├── RiddleModal.jsx       # Riddle question modal
-│   └── ScoreBoardModal.jsx   # Leaderboard display modal
-├── data/
-│   └── riddles.json          # Game riddles and word sets
-├── utils/
-│   └── supabaseClient.js     # Supabase configuration and API calls
-├── App.jsx                   # Main game logic and state management
-├── index.js                  # React app entry point
-└── index.css                 # Global styles and Tailwind imports
-```
-
 ## 🚀 Deployment
 
 ### Deploy to Netlify
 1. Build the project: `npm run build`
 2. Drag the `build` folder to Netlify
 3. Add environment variables in Netlify dashboard
-
-### Deploy to Vercel
-1. Connect your GitHub repository to Vercel
-2. Add environment variables in Vercel dashboard
-3. Deploy automatically on push
 
 ## 🔧 Customization
 
@@ -198,27 +146,6 @@ Modify `tailwind.config.js` to change:
 - Animations
 - Responsive breakpoints
 - Custom components
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-1. **Supabase Connection Error**
-   - Verify your environment variables are correct
-   - Check that your Supabase project is active
-   - Ensure the leaderboard table exists
-
-2. **Audio Not Working**
-   - Some browsers require user interaction before playing audio
-   - Check browser console for audio context errors
-
-3. **Keyboard Not Responding**
-   - Ensure the game window has focus
-   - Check browser console for JavaScript errors
-
-4. **Responsive Issues**
-   - Clear browser cache and reload
-   - Test in different browsers
 
 ## 🤝 Contributing
 

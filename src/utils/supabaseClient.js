@@ -5,7 +5,7 @@ import { validatePlayerName, checkRateLimit, sanitizeText } from './security'
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL
 const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY
 
-// Validate environment configuration
+
 const hasSupabaseCredentials = supabaseUrl && 
   supabaseAnonKey && 
   supabaseUrl !== 'YOUR_SUPABASE_URL' && 
@@ -13,10 +13,9 @@ const hasSupabaseCredentials = supabaseUrl &&
   supabaseUrl !== 'https://your-project-id.supabase.co' &&
   supabaseAnonKey !== 'your_supabase_anon_key_here'
 
-// Supabase client configuration with security options
 const supabaseOptions = {
   auth: {
-    persistSession: false, // Don't persist sessions for this game
+    persistSession: false,
     autoRefreshToken: false,
     detectSessionInUrl: false
   },
@@ -27,12 +26,11 @@ const supabaseOptions = {
   }
 }
 
-// Create Supabase client only if credentials are available
 export const supabase = hasSupabaseCredentials 
   ? createClient(supabaseUrl, supabaseAnonKey, supabaseOptions)
   : null
 
-// Secure logging (only in development)
+
 if (process.env.NODE_ENV === 'development') {
   console.log('Supabase configuration:');
   console.log('URL configured:', !!supabaseUrl);
@@ -40,20 +38,20 @@ if (process.env.NODE_ENV === 'development') {
   console.log('Client created:', !!supabase);
 }
 
-// Leaderboard functions with security validation
+
 export const saveScore = async (name, score) => {
-  // Rate limiting check
-  if (!checkRateLimit('save_score', 5, 60000)) { // 5 requests per minute
+  
+  if (!checkRateLimit('save_score', 5, 60000)) {
     return { success: false, error: 'Too many requests. Please wait before submitting again.' }
   }
 
-  // Input validation
+  
   const nameValidation = validatePlayerName(name)
   if (!nameValidation.isValid) {
     return { success: false, error: nameValidation.error }
   }
 
-  // Score validation
+  
   if (typeof score !== 'number' || score < 0 || score > 10000 || !Number.isInteger(score)) {
     return { success: false, error: 'Invalid score value' }
   }
@@ -93,7 +91,7 @@ export const saveScore = async (name, score) => {
 export const getTopScores = async (limit = 10) => {
   if (!supabase) {
     console.warn('Supabase not configured - returning mock data')
-    // Return mock data for development
+    
     return { 
       success: true, 
       data: [
@@ -125,7 +123,7 @@ export const getTopScores = async (limit = 10) => {
 }
 
 export const getPlayerHighScore = async (playerName) => {
-  // Input validation
+  
   const nameValidation = validatePlayerName(playerName)
   if (!nameValidation.isValid) {
     console.warn('Invalid player name for high score lookup')

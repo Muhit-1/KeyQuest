@@ -1,0 +1,44 @@
+# Security Headers for KeyQuest
+# This file configures security headers for Netlify deployment
+# For other hosting providers, configure these headers in your web server
+
+/*
+  # Content Security Policy - Prevents XSS attacks
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self';
+  
+  # Prevent clickjacking attacks
+  X-Frame-Options: DENY
+  
+  # Prevent MIME type sniffing
+  X-Content-Type-Options: nosniff
+  
+  # Enable XSS protection
+  X-XSS-Protection: 1; mode=block
+  
+  # Referrer Policy - Control referrer information
+  Referrer-Policy: strict-origin-when-cross-origin
+  
+  # Permissions Policy - Control browser features
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=()
+  
+  # Strict Transport Security - Force HTTPS (only for HTTPS sites)
+  # Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  
+  # Cache Control for security
+  Cache-Control: no-cache, no-store, must-revalidate
+  
+  # Additional security headers
+  X-Permitted-Cross-Domain-Policies: none
+  Cross-Origin-Embedder-Policy: require-corp
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+# Static assets can have longer cache times
+/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# API routes (if any) - more restrictive CSP
+/api/*
+  Content-Security-Policy: default-src 'none'; script-src 'none'; style-src 'none'; img-src 'none'; connect-src 'self';
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY

@@ -33,7 +33,7 @@ A modern, responsive typing and riddle game built with React, Tailwind CSS, and 
 
 ## 🖼️ Screenshots
 
-![Home Page](https://i.ibb.co.com/gFzqy7LC/screencapture-localhost-3000-2025-10-03-01-24-15.png)
+![Home Page](https://i.ibb.co.com/KpN3DsrV/screencapture-localhost-3000-2025-10-03-01-24-15.png)
 
 
 ## 📦 Installation & Setup

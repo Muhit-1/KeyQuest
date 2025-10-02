@@ -31,6 +31,11 @@ A modern, responsive typing and riddle game built with React, Tailwind CSS, and 
 - **Build Tool**: Create React App
 - **Deployment**: Ready for Netlify/Vercel deployment
 
+## 🖼️ Screenshots
+
+![Home Page](https://i.ibb.co.com/gFzqy7LC/screencapture-localhost-3000-2025-10-03-01-24-15.png)
+
+
 ## 📦 Installation & Setup
 
 ### Prerequisites

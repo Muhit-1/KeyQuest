@@ -508,7 +508,9 @@ const App = () => {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-accent/20 to-background flex flex-col">
+    <div className={`min-h-screen bg-gradient-to-br from-background via-accent/20 to-background flex flex-col ${
+      gameState === GAME_STATES.MENU ? 'md:min-h-screen' : ''
+    }`}>
       {/* Header */}
       <header className="flex flex-col sm:flex-row justify-between items-center p-4 sm:p-6 gap-4 sm:gap-0">
         {/* Score */}
@@ -545,66 +547,72 @@ const App = () => {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col justify-center items-center px-4 pb-24 sm:pb-32">
+      <main className={`flex-1 flex flex-col px-4 ${
+        gameState === GAME_STATES.MENU 
+          ? 'justify-center items-center py-4 sm:py-0 sm:pb-24 md:pb-32' // Center on all devices, minimal padding on mobile
+          : 'justify-center items-center pb-24 sm:pb-32' // Normal centering for other states
+      }`}>
         {/* Menu State */}
         {gameState === GAME_STATES.MENU && (
-          <motion.div
-            className="text-center max-w-2xl"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
+          <div className="w-full max-w-2xl flex flex-col min-h-0">
             <motion.div
-              className="text-8xl mb-8"
-              animate={{ 
-                rotate: [0, 5, -5, 0],
-                scale: [1, 1.1, 1]
-              }}
-              transition={{ duration: 3, repeat: Infinity }}
+              className="text-center flex flex-col justify-center flex-1"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
             >
-              ⌨️
-            </motion.div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-4">
-              {TEXTS.WELCOME_HEADING}
-            </h2>
-            <p className="text-gray-600 mb-8 text-lg leading-relaxed">
-              {TEXTS.WELCOME_SUBTITLE}
-            </p>
-            
-            {/* Time Selection */}
-            <div className="mb-8">
-              <p className="text-gray-700 mb-4 font-semibold">Select Game Duration:</p>
-              <div className="flex justify-center space-x-4">
-                {[30, 45, 60].map((time) => (
-                  <motion.button
-                    key={time}
-                    onClick={() => {
-                      setSelectedTime(time);
-                      console.log(`Selected time: ${time}s`);
-                    }}
-                    className={`px-6 py-3 rounded-xl font-bold transition-all duration-300 ${
-                      selectedTime === time
-                        ? 'bg-primary text-white shadow-lg scale-105'
-                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                    }`}
-                    whileHover={{ scale: selectedTime === time ? 1.05 : 1.02 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {time}s
-                  </motion.button>
-                ))}
+              <motion.div
+                className="text-8xl mb-8"
+                animate={{ 
+                  rotate: [0, 5, -5, 0],
+                  scale: [1, 1.1, 1]
+                }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
+                ⌨️
+              </motion.div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-4">
+                {TEXTS.WELCOME_HEADING}
+              </h2>
+              <p className="text-gray-600 mb-8 text-lg leading-relaxed">
+                {TEXTS.WELCOME_SUBTITLE}
+              </p>
+              
+              {/* Time Selection */}
+              <div className="mb-8">
+                <p className="text-gray-700 mb-4 font-semibold">Select Game Duration:</p>
+                <div className="flex justify-center space-x-4">
+                  {[30, 45, 60].map((time) => (
+                    <motion.button
+                      key={time}
+                      onClick={() => {
+                        setSelectedTime(time);
+                        console.log(`Selected time: ${time}s`);
+                      }}
+                      className={`px-6 py-3 rounded-xl font-bold transition-all duration-300 ${
+                        selectedTime === time
+                          ? 'bg-primary text-white shadow-lg scale-105'
+                          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                      }`}
+                      whileHover={{ scale: selectedTime === time ? 1.05 : 1.02 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      {time}s
+                    </motion.button>
+                  ))}
+                </div>
               </div>
-            </div>
-            
-            <motion.button
-              onClick={initializeGame}
-              className="bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-2xl text-xl font-bold shadow-2xl hover:shadow-3xl transition-all duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {TEXTS.START_GAME_BUTTON}
-            </motion.button>
-          </motion.div>
+              
+              <motion.button
+                onClick={initializeGame}
+                className="bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-2xl text-xl font-bold shadow-2xl hover:shadow-3xl transition-all duration-300 w-full sm:w-auto max-w-xs mx-auto"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {TEXTS.START_GAME_BUTTON}
+              </motion.button>
+            </motion.div>
+          </div>
         )}
 
         {/* Playing State */}
@@ -647,7 +655,11 @@ const App = () => {
       </main>
 
       {/* Footer */}
-      <footer className="fixed bottom-0 left-0 right-0 flex flex-col sm:flex-row justify-between items-center p-3 sm:p-6 text-sm bg-gradient-to-br from-background via-accent/20 to-background gap-3 sm:gap-0">
+      <footer className={`${
+        gameState === GAME_STATES.MENU 
+          ? 'relative mt-12 mb-4 sm:fixed sm:bottom-0 sm:left-0 sm:right-0 sm:mt-0 sm:mb-0' // Relative with spacing on mobile, fixed on desktop for menu
+          : 'fixed bottom-0 left-0 right-0' // Always fixed for other states
+      } flex flex-col sm:flex-row justify-between items-center p-3 sm:p-6 text-sm bg-gradient-to-br from-background via-accent/20 to-background gap-3 sm:gap-0`}>
         {/* High Score */}
         <div className="bg-white/80 backdrop-blur-sm rounded-lg px-3 py-2 w-full sm:min-w-[200px] sm:w-auto shadow-lg text-center">
           <div className="text-sm text-gray-600">{TEXTS.YOUR_BEST_LABEL}</div>

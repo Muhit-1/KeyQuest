@@ -1,0 +1,522 @@
+{
+  "riddles": [
+   
+   {
+      "id": 3,
+      "words": [
+        "Ross", "Monica", "Chandler", "Rachel", "Joey",
+        "Phoebe", "Marcel", "Janice", "Gunther", "Carol",
+        "Emily", "Mike"
+      ],
+      "question": "These names form a giant web of relationships, cameos, and recurring chaos. Which TV series connects them all?",
+      "options": ["Friends", "Seinfeld", "Cheers", "WillAndGrace"],
+      "correctAnswer": 0,
+      "theme": "Friends"
+    },
+    {
+      "id": 6,
+      "words": [
+        "Heisenberg", "Blue", "LosPollos",
+        "Fly", "TreadLightly", "Saul", "Hank",
+        "Tuco", "Pollos", "Jane", "Gus", "Cartel"
+      ],
+      "question": "These cryptic words link to a dark empire of chemistry and crime. Which series?",
+      "options": ["BreakingBad", "Narcos", "BetterCallSaul", "Ozark"],
+      "correctAnswer": 0,
+      "theme": "BreakingBad"
+    },
+    {
+      "id": 8,
+      "words": [
+        "Fly", "Ricincigarette", "Bell", "Pinkman",
+        "LosPollos", "Hank", "Desert", "Cartel",
+        "Gus", "Tuco", "Blue"
+      ],
+      "question": "One silent episode revolved around a single word in this list. Which series is being referenced?",
+      "options": ["BreakingBad", "Dexter", "Ozark", "TrueDetective"],
+      "correctAnswer": 0,
+      "theme": "BreakingBad"
+    },
+    {
+      "id": 9,
+      "words": [
+        "Pinkman", "Ricincigarette",
+        "TreadLightly", "Blue", "Tuco", "Saul", "Fly",
+        "Gus", "Bell", "Skyler", "RV", "Cousins"
+      ],
+      "question": "These names and hints point to a saga of desert secrets, chemistry, and crime. Which TV show?",
+      "options": ["BreakingBad", "BetterCallSaul", "Fargo", "Narcos"],
+      "correctAnswer": 0,
+      "theme": "BreakingBad"
+    },
+    {
+      "id": 12,
+      "words": [
+        "PrisonMike", "Scranton", "Dundie", "Pam", "Jim",
+        "Dwight", "Michael",
+        "Beets", "Stanley", "Meredith", "Toby", "Jan"
+      ],
+      "question": "One clue here is a bizarre alter ego of the world’s worst boss. Which show unites the rest?",
+      "options": ["TheOffice", "Community", "Archer", "ParksAndRec"],
+      "correctAnswer": 0,
+      "theme": "TheOffice"
+    },
+    {
+      "id": 15,
+      "words": [
+        "Dundie", "Michael", "Pam", "Jim", "Dwight",
+        "Beets", "Creed",
+        "Angela", "Meredith", "Stanley", "Jan", "Toby"
+      ],
+      "question": "All these one-word clues define one of the most iconic mockumentary sitcoms. Which show?",
+      "options": ["TheOffice", "Brooklyn99", "Community", "ModernFamily"],
+      "correctAnswer": 0,
+      "theme": "TheOffice"
+    },
+    {
+      "id": 17,
+      "words": [
+        "Frieza", "Cell", "MajinBuu", "Broly", "Raditz",
+        "Saiyan", "Goku", "Vegeta", "Kamehameha", "Fusion",
+        "Namek", "Krillin"
+      ],
+      "question": "These foes and allies shaped one of the most iconic anime sagas. Which series?",
+      "options": ["DragonBallZ", "Naruto", "Bleach", "AttackOnTitan"],
+      "correctAnswer": 0,
+      "theme": "DragonBallZ"
+    },
+    {
+      "id": 19,
+      "words": [
+        "Goku", "Vegeta", "Krillin", "Piccolo", "Gohan",
+        "Frieza", "Cell", "MajinBuu", "Raditz", "Yamcha",
+        "Tien", "Bulma", "Chichi", "Trunks", "Goten"
+      ],
+      "question": "These names link a legendary martial arts saga spanning galaxies. Which show?",
+      "options": ["DragonBallZ", "OnePiece", "Naruto", "Bleach"],
+      "correctAnswer": 0,
+      "theme": "DragonBallZ"
+    },
+
+
+    {
+      "id": 24,
+      "words": [
+        "Titan", "Eren", "Mikasa", "Armin", "Levi",
+        "Historia", "Ymir", "Reiner",
+        "BeastTitan", "Zeke", "SurveyCorps", "ODM"
+      ],
+      "question": "These words point to humanity’s struggle against monstrous foes. Which anime?",
+      "options": ["AttackOnTitan", "Bleach", "Naruto", "OnePiece"],
+      "correctAnswer": 0,
+      "theme": "AttackOnTitan"
+    },
+
+
+    {
+      "id": 25,
+      "words": [
+        "SurveyCorps", "ODM", "Eren", "Mikasa", "Armin",
+        "Levi", "Historia", "Ymir", "Reiner", "Zeke",
+        "Titan", "WallMaria"
+      ],
+      "question": "These soldiers, enemies, and walls define which anime series?",
+      "options": ["AttackOnTitan", "Naruto", "DragonBallZ", "OnePiece"],
+      "correctAnswer": 0,
+      "theme": "AttackOnTitan"
+    },
+
+
+    {
+      "id": 26,
+      "words": [
+        "Luffy", "Zoro", "Sanji", "Nami", "Usopp",
+        "Chopper", "Robin", "Franky", "Brook", "Jinbe",
+        "GolDRoger", "Shanks"
+      ],
+      "question": "These pirates and allies form an epic ocean saga. Which anime?",
+      "options": ["OnePiece", "Naruto", "DragonBallZ", "AttackOnTitan"],
+      "correctAnswer": 0,
+      "theme": "OnePiece"
+    },
+ 
+    {
+      "id": 29,
+      "words": [
+        "OnePiece", "StrawHat", "Zoro", "Sanji", "Luffy",
+        "Nami", "Usopp", "Chopper", "Robin", "Franky",
+        "Brook", "Jinbe", "Haki"
+      ],
+      "question": "Which anime revolves around this crew chasing the ultimate treasure?",
+      "options": ["OnePiece", "Naruto", "AttackOnTitan", "DragonBallZ"],
+      "correctAnswer": 0,
+      "theme": "OnePiece"
+    },
+
+
+    {
+      "id": 30,
+      "words": [
+        "DevilFruit", "Haki", "GrandLine", "StrawHat", "Zoro",
+        "Sanji", "Luffy", "Nami", "Robin", "Brook",
+        "Chopper", "Franky"
+      ],
+      "question": "Which show ties these mysterious fruits and pirate powers together?",
+      "options": ["OnePiece", "Bleach", "Naruto", "DragonBallZ"],
+      "correctAnswer": 0,
+      "theme": "OnePiece"
+    },
+    {
+      "id": 31,
+      "words": [
+        "Naruto", "Sasuke", "Sakura", "Kakashi", "Itachi",
+        "Gaara", "Hinata", 
+        "Choji", "Kiba", "Ino", "Tsunade", "Jiraiya"
+      ],
+      "question": "These shinobi shaped the journey of a young ninja hero. Which anime?",
+      "options": ["Naruto", "Bleach", "DragonBallZ", "OnePiece"],
+      "correctAnswer": 0,
+      "theme": "Naruto"
+    },
+    
+    {
+      "id": 34,
+      "words": [
+        "ShadowClone", "Rasengan", "Chidori", "Amaterasu",
+        "Naruto", "Sasuke", "Itachi", "Kakashi",
+        "Pain", "Madara", "Tsunade", "Hinata"
+      ],
+      "question": "These jutsu names and shinobi belong to which anime world?",
+      "options": ["Naruto", "Bleach", "DragonBallZ", "AttackOnTitan"],
+      "correctAnswer": 0,
+      "theme": "Naruto"
+    },
+
+    {
+      "id": 36,
+      "words": [
+        "SmellyCat", "Guitar", "CentralPerk", "Couch", 
+        "Thanksgiving", "Phoebe", "Coffee", "Song", 
+        "Lobster", "Apartment", "Friends", "Rachel"
+      ],
+      "question": "This character wrote and performed a bizarre song about a feline with poor hygiene. Who is it?",
+      "options": ["Phoebe Buffay", "Rachel Green", "Monica Geller", "Chandler Bing"],
+      "correctAnswer": 0,
+      "theme": "Phoebe Buffay"
+    },
+    {
+      "id": 37,
+      "words": [
+         "Turkey", "Dessert", "Layer", "Beef",
+        "Thanksgiving", "Rachel", "Couch", "Friends", "Chandler",
+        "Monica", "Joey", "Janice", "Prank"
+      ],
+      "question": "During a holiday mishap, a dessert accidentally included a layer of meat. Who made this mistake?",
+      "options": ["Rachel Green", "Monica Geller", "Joey Tribbiani", "Phoebe Buffay"],
+      "correctAnswer": 0,
+      "theme": "Rachel Green"
+    },
+    {
+      "id": 38,
+      "words": [
+        "Blue", "Meth", "FriedChicken", "Empire",
+        "Heisenberg", "Gus", "RV", "Lab", "Cartel",
+        "Explosion", "Saul", "Jesse", "Tuco", "Mike"
+      ],
+      "question": "Which character runs a clandestine meth operation hidden behind a fried chicken franchise?",
+      "options": ["Gus Fring", "Walter White", "Jesse Pinkman", "Tuco Salamanca"],
+      "correctAnswer": 0,
+      "theme": "Gus Fring"
+    },
+    {
+      "id": 39,
+      "words": [
+        "Wheelchair", "Bell", "Silent", "Cartel",
+        "Explosion", "Meth", "Fring", "Saul", "Jesse",
+        "Tio", "Mike", "LosPollos", "Drug"
+      ],
+      "question": "Which character communicates solely by ringing a bell while incapacitated?",
+      "options": ["Tío Salamanca", "Gus Fring", "Walter White", "Mike Ehrmantraut"],
+      "correctAnswer": 0,
+      "theme": "Tío Salamanca"
+    },
+    {
+      "id": 40,
+      "words": [
+        "Beets", "Pranks", "Desk", "Paper", "Assistant",
+        "Manager", "Dwight", "Jim", "Stapler", "Michael",
+        "Scranton", "Pam", "Office"
+      ],
+      "question": "Which employee runs a beet farm and often takes pranks very seriously?",
+      "options": ["Dwight Schrute", "Jim Halpert", "Michael Scott", "Creed Bratton"],
+      "correctAnswer": 0,
+      "theme": "Dwight Schrute"
+    },
+    {
+      "id": 41,
+      "words": [
+        "Diversity", "Workshop", "Mug", "Scranton",
+        "Michael", "Pam", "Jim", "Angela", "Stanley",
+        "Kevin", "Oscar", "Toby", "Meredith"
+      ],
+      "question": "Which manager held a controversial diversity workshop early in the series?",
+      "options": ["Michael Scott", "Dwight Schrute", "Jan Levinson", "David Wallace"],
+      "correctAnswer": 0,
+      "theme": "Michael Scott"
+    },
+    {
+      "id": 42,
+      "words": [
+        "Kamehameha", "Fusion", "SpiritBomb", "Saiyan", "Frieza",
+        "Cell", "MajinBuu", "DragonBalls", "CapsuleCorp", "Vegeta",
+        "Piccolo", "Krillin"
+      ],
+      "question": "Which powerful attack uses the energy of all living beings to defeat a major enemy?",
+      "options": ["Spirit Bomb", "Kamehameha", "Final Flash", "Destructo Disc"],
+      "correctAnswer": 0,
+      "theme": "Spirit Bomb"
+    },
+    {
+      "id": 43,
+      "words": [
+        "Fusion", "Potara", "Gogeta", "Vegetto", "SuperSaiyan",
+        "Goku", "Vegeta", "Frieza", "Cell", "MajinBuu",
+        "Tournament"
+      ],
+      "question": "What is the technique called that allows two warriors to combine into a single fighter?",
+      "options": ["Fusion", "Spirit Bomb", "Kamehameha", "Instant Transmission"],
+      "correctAnswer": 0,
+      "theme": "Fusion"
+    },
+    {
+      "id": 44,
+      "words": [
+        "Titan", "Colossal", "Armored", "Beast", "Annie",
+        "Eren", "Mikasa", "Armin", "Levi", "Reiner",
+        "Historia", "Ymir"
+      ],
+      "question": "Which Titan is known for its extreme size and ability to breach fortifications?",
+      "options": ["Colossal Titan", "Armored Titan", "Beast Titan", "Female Titan"],
+      "correctAnswer": 0,
+      "theme": "Colossal Titan"
+    },
+    {
+      "id": 45,
+      "words": [
+        "ODM", "Mikasa", "Eren", "Levi", "Armin",
+        "SurveyCorps", "ColossalTitan", "ArmoredTitan", "BeastTitan", "Annie",
+        "Reiner", "Historia"
+      ],
+      "question": "Which piece of equipment allows soldiers to maneuver rapidly against Titans?",
+      "options": ["ODM Gear", "Colossal Titan", "Vertical Maneuver", "Titan Serum"],
+      "correctAnswer": 0,
+      "theme": "ODM Gear"
+    },
+    {
+      "id": 46,
+      "words": [
+        "Luffy", "Zoro", "Sanji", "DevilFruit", "Haki",
+        "GrandLine", "StrawHat", "Nami", "Robin", "Usopp",
+        "Chopper", "Brook"
+      ],
+      "question": "Which supernatural ability allows users to gain extraordinary powers from eating a specific fruit?",
+      "options": ["Devil Fruit", "Haki", "Gear Second", "Logia"],
+      "correctAnswer": 0,
+      "theme": "Devil Fruit"
+    },
+    {
+      "id": 47,
+      "words": [
+        "StrawHat", "Luffy", "Zoro", "Sanji", "Nami",
+        "Robin", "Brook", "Usopp", "Chopper", "Jinbe",
+        "Treasure", "Kaido", "BigMom"
+      ],
+      "question": "Which object identifies the captain of the crew and is a symbol of his promise?",
+      "options": ["Straw Hat", "Devil Fruit", "Jolly Roger", "Treasure Map"],
+      "correctAnswer": 0,
+      "theme": "Straw Hat"
+    },
+    {
+      "id": 48,
+      "words": [
+        "Rasengan", "Chidori", "Sasuke", "Naruto",
+        "Kakashi", "Jiraiya", "Tsunade", "Pain", "Madara",
+        "Hinata", "Gaara", "Neji", "RockLee"
+      ],
+      "question": "Which technique involves concentrating chakra into a spinning sphere to strike an opponent?",
+      "options": ["Rasengan", "Chidori", "Amaterasu", "Susanoo"],
+      "correctAnswer": 0,
+      "theme": "Rasengan"
+    },
+    {
+      "id": 49,
+      "words": [
+        "ShadowClone", "Rasengan", "Naruto", "Sasuke", "Kakashi",
+        "Jiraiya", "Tsunade", "Pain", "Madara", "Hinata",
+        "Neji", "RockLee", "Shikamaru", "Gaara"
+      ],
+      "question": "Which jutsu allows the user to create multiple copies of themselves to overwhelm opponents?",
+      "options": ["Shadow Clone", "Rasengan", "Chidori", "Summoning"],
+      "correctAnswer": 0,
+      "theme": "Shadow Clone"
+    }, 
+
+    {
+      "id": 50,
+      "words": [
+        "NineNine", "Precinct", "Peralta", "Captain", "Jake",
+        "Amy", "Terry", "Rosa", "Gina", "Holt"
+      ],
+      "question": "Which detective is famous for his sarcastic humor, incredible intuition, and amazing detective skills?",
+      "options": ["Jake Peralta", "Rosa Diaz", "Terry Jeffords", "Captain Holt"],
+      "correctAnswer": 0,
+      "theme": "Jake Peralta"
+    },
+    {
+      "id": 51,
+      "words": [
+        "Hitchcock", "Scully", "Detective", "Pranks", "Vine",
+        "NineNine", "Captain", "Jake", "Rosa", "Peralta"
+      ],
+      "question": "Which character is clumsy, loves food, and often becomes the butt of office jokes?",
+      "options": ["Hitchcock", "Scully", "Jake Peralta", "Amy Santiago"],
+      "correctAnswer": 0,
+      "theme": "Hitchcock"
+    },
+    {
+      "id": 52,
+      "words": [
+        "RedJohn", "Patrick", "Jane", "Mentalist", "Crime",
+        "California", "Psychology", "Clues", "Insight", "Detective"
+      ],
+      "question": "Which antagonist does the main character obsessively track down throughout the series?",
+      "options": ["Red John", "Patrick Jane", "Lisbon", "Cho"],
+      "correctAnswer": 0,
+      "theme": "Red John"
+    },
+    {
+      "id": 53,
+      "words": [
+        "Observation", "Trick", "Clues", "Crime", "Patrick",
+        "Jane", "Mentalist", "California", "Insight", "Deduction"
+      ],
+      "question": "Which character uses psychology and observation to solve cases without conventional police work?",
+      "options": ["Patrick Jane", "Red John", "Lisbon", "Cho"],
+      "correctAnswer": 0,
+      "theme": "Patrick Jane"
+    },
+    {
+      "id": 54,
+      "words": [
+        "Hawkins", "UpsideDown", "Eleven", "Demogorgon", "Bike",
+        "Friends", "Mystery", "MindFlayer", "Byers", "Will"
+      ],
+      "question": "Which girl has psychokinetic powers and escaped from a secretive laboratory?",
+      "options": ["Eleven", "Max", "Mike", "Dustin"],
+      "correctAnswer": 0,
+      "theme": "Eleven"
+    },
+    {
+      "id": 55,
+      "words": [
+        "Byers", "Disappear", "Mystery", "Hawkins", "UpsideDown",
+        "Investigate", "Monster", "Joyce", "Will", "Jonathan"
+      ],
+      "question": "Which boy mysteriously disappears and becomes linked to a parallel dimension?",
+      "options": ["Will Byers", "Mike Wheeler", "Dustin Henderson", "Lucas Sinclair"],
+      "correctAnswer": 0,
+      "theme": "Will Byers"
+    },
+
+    {
+      "id": 56,
+      "words": [
+        "Hawkins", "UpsideDown", "Eleven", "Demogorgon", "Bike",
+        "Friends", "Mystery", "MindFlayer", "Byers", "Will"
+      ],
+      "question": "Which girl has psychokinetic powers and escaped from a secretive laboratory?",
+      "options": ["Eleven", "Max", "Mike", "Dustin"],
+      "correctAnswer": 0,
+      "theme": "Eleven"
+    },
+    {
+      "id": 57,
+      "words": [
+        "Byers", "Disappear", "Mystery", "Hawkins", "UpsideDown",
+        "Investigate", "Monster", "Joyce", "Will", "Jonathan"
+      ],
+      "question": "Which boy mysteriously disappears and becomes linked to a parallel dimension?",
+      "options": ["Will Byers", "Mike Wheeler", "Dustin Henderson", "Lucas Sinclair"],
+      "correctAnswer": 0,
+      "theme": "Will Byers"
+    },
+    {
+      "id": 58,
+      "words": [
+        "Hopper", "Police", "Hawkins", "Investigation", "Lab",
+        "Eleven", "Mystery", "MindFlayer", "Byers", "Demogorgon"
+      ],
+      "question": "Which character acts as a protective father figure while investigating supernatural events?",
+      "options": ["Jim Hopper", "Jonathan Byers", "Mike Wheeler", "Steve Harrington"],
+      "correctAnswer": 0,
+      "theme": "Jim Hopper"
+    },
+    {
+      "id": 59,
+      "words": [
+        "Winden", "TimeTravel", "Caves", "Nuclear", "Secret",
+        "Jonas", "Mikkel", "Martha", "Clocks", "Loop"
+      ],
+      "question": "Which character discovers the family and town are trapped in a time loop spanning generations?",
+      "options": ["Jonas Kahnwald", "Mikkel Nielsen", "Noah", "Ulrich Nielsen"],
+      "correctAnswer": 0,
+      "theme": "Jonas Kahnwald"
+    },
+    {
+      "id": 60,
+      "words": [
+        "Caves", "Nuclear", "Winden", "TimeTravel", "Secret",
+        "Noah", "Sic Mundus", "Clocks", "Family", "Loop"
+      ],
+      "question": "Which character is a priest secretly involved in the time travel society known as Sic Mundus?",
+      "options": ["Noah", "Jonas Kahnwald", "Adam", "Ulrich Nielsen"],
+      "correctAnswer": 0,
+      "theme": "Noah"
+    },
+    {
+      "id": 61,
+      "words": [
+        "TimeMachine", "Winden", "Caves", "Family", "Loop",
+        "Clocks", "Jonas", "Martha", "Noah", "Adam"
+      ],
+      "question": "Which character becomes the older, more mysterious antagonist manipulating the time loop?",
+      "options": ["Adam", "Noah", "Jonas Kahnwald", "Ulrich Nielsen"],
+      "correctAnswer": 0,
+      "theme": "Adam"
+    },
+    {
+      "id": 62,
+      "words": [
+        "Martha", "Jonas", "Parallel", "World", "Love",
+        "Winden", "TimeTravel", "Family", "Loop", "Secret"
+      ],
+      "question": "Which female character is central to the parallel world storyline and has a complicated romance?",
+      "options": ["Martha Nielsen", "Hannah Kahnwald", "Katharina Nielsen", "Elisabeth Doppler"],
+      "correctAnswer": 0,
+      "theme": "Martha Nielsen"
+    },
+    {
+      "id": 63,
+      "words": [
+        "Ulrich", "TimeTravel", "Son", "Winden", "Family",
+        "Clocks", "Loop", "Disappearance", "Mikkel", "Investigation"
+      ],
+      "question": "Which character is a police officer struggling with his son’s disappearance and gets caught in the time loop?",
+      "options": ["Ulrich Nielsen", "Noah", "Jonas Kahnwald", "Bartoz Tiedemann"],
+      "correctAnswer": 0,
+      "theme": "Ulrich Nielsen"
+    }
+
+
+  ]
+}

@@ -545,17 +545,17 @@ const App = () => {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col justify-center items-center px-4 pb-32 sm:pb-32">
+      <main className="flex-1 flex flex-col justify-center items-center px-4 pb-24 sm:pb-32">
         {/* Menu State */}
         {gameState === GAME_STATES.MENU && (
           <motion.div
-            className="text-center max-w-2xl w-full flex flex-col justify-center min-h-[60vh] sm:min-h-0"
+            className="text-center max-w-2xl"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
             <motion.div
-              className="text-6xl sm:text-8xl mb-6 sm:mb-8"
+              className="text-8xl mb-8"
               animate={{ 
                 rotate: [0, 5, -5, 0],
                 scale: [1, 1.1, 1]
@@ -564,17 +564,17 @@ const App = () => {
             >
               ⌨️
             </motion.div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-3 sm:mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-4">
               {TEXTS.WELCOME_HEADING}
             </h2>
-            <p className="text-gray-600 mb-6 sm:mb-8 text-base sm:text-lg leading-relaxed px-4">
+            <p className="text-gray-600 mb-8 text-lg leading-relaxed">
               {TEXTS.WELCOME_SUBTITLE}
             </p>
             
             {/* Time Selection */}
-            <div className="mb-6 sm:mb-8">
-              <p className="text-gray-700 mb-3 sm:mb-4 font-semibold text-sm sm:text-base">Select Game Duration:</p>
-              <div className="flex justify-center space-x-2 sm:space-x-4">
+            <div className="mb-8">
+              <p className="text-gray-700 mb-4 font-semibold">Select Game Duration:</p>
+              <div className="flex justify-center space-x-4">
                 {[30, 45, 60].map((time) => (
                   <motion.button
                     key={time}
@@ -582,7 +582,7 @@ const App = () => {
                       setSelectedTime(time);
                       console.log(`Selected time: ${time}s`);
                     }}
-                    className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-bold transition-all duration-300 text-sm sm:text-base ${
+                    className={`px-6 py-3 rounded-xl font-bold transition-all duration-300 ${
                       selectedTime === time
                         ? 'bg-primary text-white shadow-lg scale-105'
                         : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -598,7 +598,7 @@ const App = () => {
             
             <motion.button
               onClick={initializeGame}
-              className="bg-gradient-to-r from-primary to-secondary text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl text-lg sm:text-xl font-bold shadow-2xl hover:shadow-3xl transition-all duration-300 w-full max-w-xs sm:w-auto"
+              className="bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-2xl text-xl font-bold shadow-2xl hover:shadow-3xl transition-all duration-300"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -647,11 +647,11 @@ const App = () => {
       </main>
 
       {/* Footer */}
-      <footer className="fixed bottom-0 left-0 right-0 flex flex-col sm:flex-row justify-between items-center p-2 sm:p-6 text-sm bg-gradient-to-br from-background via-accent/20 to-background gap-2 sm:gap-0 border-t border-gray-200/50">
+      <footer className="fixed bottom-0 left-0 right-0 flex flex-col sm:flex-row justify-between items-center p-3 sm:p-6 text-sm bg-gradient-to-br from-background via-accent/20 to-background gap-3 sm:gap-0">
         {/* High Score */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-lg px-2 sm:px-3 py-1 sm:py-2 w-full sm:min-w-[200px] sm:w-auto shadow-lg text-center">
-          <div className="text-xs sm:text-sm text-gray-600">{TEXTS.YOUR_BEST_LABEL}</div>
-          <div className="text-lg sm:text-xl font-bold text-primary">{playerHighScore}</div>
+        <div className="bg-white/80 backdrop-blur-sm rounded-lg px-3 py-2 w-full sm:min-w-[200px] sm:w-auto shadow-lg text-center">
+          <div className="text-sm text-gray-600">{TEXTS.YOUR_BEST_LABEL}</div>
+          <div className="text-xl font-bold text-primary">{playerHighScore}</div>
         </div>
 
         {/* GitHub Link */}
@@ -659,15 +659,15 @@ const App = () => {
           href="https://github.com/muhit-1/KeyQuest" // Replace with actual GitHub URL
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center bg-white/60 backdrop-blur-sm rounded-lg px-2 sm:px-4 py-1 sm:py-2 w-full sm:min-w-[200px] sm:w-auto shadow-lg hover:bg-white/80 hover:shadow-xl transition-all duration-300 hover:scale-105 group gap-2 sm:gap-3"
+          className="flex items-center justify-center bg-white/60 backdrop-blur-sm rounded-lg px-4 py-2 w-full sm:min-w-[200px] sm:w-auto shadow-lg hover:bg-white/80 hover:shadow-xl transition-all duration-300 hover:scale-105 group gap-3"
         >
           <img 
             src={developerImage} 
             alt="Developer" 
-            className="w-6 sm:w-8 h-6 sm:h-8 rounded-full object-cover border-2 border-primary/20 group-hover:border-primary/50 transition-colors"
+            className="w-8 h-8 rounded-full object-cover border-2 border-primary/20 group-hover:border-primary/50 transition-colors"
           />
           <div className="text-center">
-            <div className="font-medium text-gray-700 group-hover:text-primary transition-colors text-xs sm:text-sm">
+            <div className="font-medium text-gray-700 group-hover:text-primary transition-colors">
               {TEXTS.FOOTER_VERSION}
             </div>
             <div className="text-xs text-gray-600 group-hover:text-secondary transition-colors">

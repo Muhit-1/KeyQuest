@@ -128,7 +128,4 @@ build/
 dist/
 out/
 
-# Project-specific files
-stops.txt
-routes.txt
-bus_routes.docx
+

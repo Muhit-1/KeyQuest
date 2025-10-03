@@ -122,11 +122,13 @@ private/
 .vscode/settings.json
 .idea/
 
-# Package manager lock files (optional - uncomment if needed)
-# package-lock.json
-# yarn.lock
 
 # Build artifacts
 build/
 dist/
 out/
+
+# Project-specific files
+stops.txt
+routes.txt
+bus_routes.docx

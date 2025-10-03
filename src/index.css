@@ -17,7 +17,15 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #F6F1F1;
-  overflow: hidden;
+  /* Allow scrolling on small screens */
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* Mobile safe area adjustments */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  /* Improve touch experience */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 code {
@@ -60,4 +68,133 @@ code {
 .modal-backdrop {
   backdrop-filter: blur(8px);
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Responsive styles for small height screens */
+@media (max-height: 800px) {
+  /* Ensure proper spacing and prevent overlaps on small height screens */
+  .app-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 120px; /* Space for footer */
+    min-height: 0;
+  }
+  
+  .footer-small-screen {
+    position: relative !important;
+    margin-top: auto;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+}
+
+@media (max-height: 600px) {
+  /* Extra adjustments for very small screens */
+  .main-content {
+    padding-bottom: 140px; /* More space for footer */
+    padding-top: 1rem;
+  }
+  
+  .menu-content {
+    gap: 1rem; /* Reduce gaps between elements */
+  }
+  
+  .menu-content .text-8xl {
+    font-size: 4rem; /* Smaller emoji */
+  }
+  
+  .menu-content h2 {
+    font-size: 1.5rem; /* Smaller heading */
+    margin-bottom: 0.5rem;
+  }
+  
+  .menu-content p {
+    font-size: 0.875rem; /* Smaller subtitle */
+    margin-bottom: 1rem;
+  }
+}
+
+/* Ensure Start Game button is always visible and clickable */
+@media (max-height: 700px) {
+  .start-game-button {
+    position: relative;
+    z-index: 10;
+    margin-bottom: 2rem;
+  }
+  
+  .time-selection {
+    margin-bottom: 1.5rem;
+  }
+  
+  .time-selection p {
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 768px) and (max-height: 800px) {
+  .app-container {
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for mobile browsers */
+  }
+  
+  .main-content {
+    padding-bottom: 160px; /* Extra space for mobile footer */
+    padding-top: 0.5rem;
+  }
+  
+  .menu-content {
+    padding: 1rem 0;
+  }
+  
+  .footer-small-screen {
+    position: relative !important;
+    margin-top: auto;
+    padding: 1rem 0.75rem;
+    background: rgba(246, 241, 241, 0.95);
+    backdrop-filter: blur(10px);
+  }
+}
+
+/* Very small mobile screens */
+@media (max-width: 480px) and (max-height: 700px) {
+  .main-content {
+    padding-bottom: 180px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .menu-content .text-8xl {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .menu-content h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .menu-content p {
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .time-selection {
+    margin-bottom: 1rem;
+  }
+  
+  .start-game-button {
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+    margin-bottom: 1rem;
+  }
 }

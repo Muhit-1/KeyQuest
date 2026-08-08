@@ -476,9 +476,9 @@
       "id": 60,
       "words": [
         "Caves", "Nuclear", "Winden", "TimeTravel", "Secret",
-        "Noah", "Sic Mundus", "Clocks", "Family", "Loop"
+        "Noah", "SicMundus", "Clocks", "Family", "Loop"
       ],
-      "question": "Which character is a priest secretly involved in the time travel society known as Sic Mundus?",
+      "question": "Which character is a priest secretly involved in the time travel society known as SicMundus?",
       "options": ["Noah", "Jonas Kahnwald", "Adam", "Ulrich Nielsen"],
       "correctAnswer": 0,
       "theme": "Noah"

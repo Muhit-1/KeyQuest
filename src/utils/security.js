@@ -181,20 +181,5 @@ export const generateNonce = () => {
   return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
 };
 
-/**
- * Environment validation
- * @returns {object} - Environment validation result
- */
-export const validateEnvironment = () => {
-  const requiredVars = ['REACT_APP_SUPABASE_URL', 'REACT_APP_SUPABASE_ANON_KEY'];
-  const missing = requiredVars.filter(varName => !process.env[varName]);
-  
-  return {
-    isValid: missing.length === 0,
-    missing,
-    environment: process.env.REACT_APP_ENVIRONMENT || 'development'
-  };
-};
-
 // Export validation patterns for use in components
 export { VALIDATION_PATTERNS };

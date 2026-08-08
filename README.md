@@ -2,6 +2,10 @@
 
 A modern, responsive typing and riddle game built with React, Tailwind CSS, and Supabase. Test your typing skills and logical thinking while competing on a global leaderboard!
 
+## Project Deployment
+
+
+
 ## 🚀 Features
 
 - **Interactive Typing Game**: Type words on a beautiful visual QWERTY keyboard

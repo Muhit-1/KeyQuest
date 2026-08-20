@@ -88,7 +88,11 @@ temp/
 *.swo
 *~
 
+# Local tooling
+.claude/
+
 # OS generated files
+desktop.ini
 .DS_Store
 .DS_Store?
 ._*

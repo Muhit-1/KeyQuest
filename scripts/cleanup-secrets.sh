@@ -6,10 +6,10 @@
 
 set -e
 
-echo "🔒 KeyQuest Secret Cleanup Script"
+echo "KeyQuest Secret Cleanup Script"
 echo "================================="
 echo ""
-echo "⚠️  WARNING: This script will rewrite git history!"
+echo " WARNING: This script will rewrite git history!"
 echo "   - Coordinate with your team before running"
 echo "   - Make sure all team members have pushed their changes"
 echo "   - This will require force pushing to remote repositories"
@@ -17,7 +17,7 @@ echo ""
 
 # Check if git-filter-repo is available
 if ! command -v git-filter-repo &> /dev/null; then
-    echo "❌ git-filter-repo is not installed"
+    echo "git-filter-repo is not installed"
     echo "   Install it with: pip install git-filter-repo"
     echo "   Or use the alternative git filter-branch method below"
     echo ""
@@ -26,7 +26,7 @@ fi
 # Function to remove specific files
 remove_file() {
     local file_path="$1"
-    echo "🗑️  Removing $file_path from git history..."
+    echo " Removing $file_path from git history..."
     
     if command -v git-filter-repo &> /dev/null; then
         # Preferred method using git-filter-repo
@@ -42,24 +42,24 @@ remove_file() {
 # Function to remove files by pattern
 remove_pattern() {
     local pattern="$1"
-    echo "🗑️  Removing files matching pattern: $pattern"
+    echo " Removing files matching pattern: $pattern"
     
     if command -v git-filter-repo &> /dev/null; then
         git filter-repo --path-glob "$pattern" --invert-paths --force
     else
-        echo "❌ Pattern removal requires git-filter-repo"
+        echo "Pattern removal requires git-filter-repo"
         echo "   Install it with: pip install git-filter-repo"
         return 1
     fi
 }
 
 # Check for common secret files in git history
-echo "🔍 Checking for secret files in git history..."
+echo "Checking for secret files in git history..."
 secret_files_found=false
 
 # Check for .env files
 if git log --name-only --pretty=format: | grep -E '\.env(\.|$)' | grep -v '\.example' | head -5; then
-    echo "❌ Found .env files in git history!"
+    echo "Found .env files in git history!"
     secret_files_found=true
 fi
 
@@ -77,19 +77,19 @@ secret_patterns=(
 
 for pattern in "${secret_patterns[@]}"; do
     if git log --name-only --pretty=format: | grep -i "$pattern" | head -1 > /dev/null; then
-        echo "❌ Found files matching pattern: $pattern"
+        echo "Found files matching pattern: $pattern"
         secret_files_found=true
     fi
 done
 
 if [ "$secret_files_found" = false ]; then
-    echo "✅ No obvious secret files found in git history"
+    echo "No obvious secret files found in git history"
     echo "   However, you should still check for hardcoded secrets in code"
     exit 0
 fi
 
 echo ""
-echo "🚨 Secret files detected in git history!"
+echo "Secret files detected in git history!"
 echo "   You should clean these up before publishing to GitHub"
 echo ""
 
@@ -97,13 +97,13 @@ echo ""
 read -p "Do you want to proceed with cleanup? (y/N): " -n 1 -r
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    echo "❌ Cleanup cancelled"
+    echo "Cleanup cancelled"
     exit 1
 fi
 
 # Backup current branch
 current_branch=$(git branch --show-current)
-echo "💾 Creating backup branch: backup-before-cleanup"
+echo "Creating backup branch: backup-before-cleanup"
 git branch backup-before-cleanup
 
 # Common files to remove
@@ -117,26 +117,26 @@ files_to_remove=(
 )
 
 echo ""
-echo "🧹 Starting cleanup process..."
+echo "Starting cleanup process..."
 
 for file in "${files_to_remove[@]}"; do
     if git log --name-only --pretty=format: | grep -q "^$file$"; then
-        echo "🗑️  Found $file in history, removing..."
+        echo " Found $file in history, removing..."
         remove_file "$file"
     fi
 done
 
 # Remove any remaining .env files
-echo "🗑️  Removing any remaining .env files..."
+echo " Removing any remaining .env files..."
 if command -v git-filter-repo &> /dev/null; then
     git filter-repo --path-glob '*.env' --invert-paths --force 2>/dev/null || true
     git filter-repo --path-glob '*.env.*' --invert-paths --force 2>/dev/null || true
 fi
 
 echo ""
-echo "✅ Cleanup completed!"
+echo "Cleanup completed!"
 echo ""
-echo "📋 Next steps:"
+echo "Next steps:"
 echo "1. Verify the cleanup worked:"
 echo "   git log --name-only --oneline | grep -E '\\.env'"
 echo ""
@@ -152,13 +152,13 @@ echo ""
 echo "4. Team members need to re-clone the repository:"
 echo "   git clone <repository-url>"
 echo ""
-echo "⚠️  Remember: All team members will need to re-clone the repository!"
+echo " Remember: All team members will need to re-clone the repository!"
 
 # Cleanup git filter-branch backup refs if they exist
 if [ -d ".git/refs/original" ]; then
-    echo "🧹 Cleaning up git filter-branch backup refs..."
+    echo "Cleaning up git filter-branch backup refs..."
     rm -rf .git/refs/original/
 fi
 
 echo ""
-echo "🔒 Secret cleanup completed successfully!"
+echo "Secret cleanup completed successfully!"

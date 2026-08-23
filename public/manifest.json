@@ -1,17 +1,25 @@
 {
   "short_name": "KeyQuest",
-  "name": "KeyQuest - Typing and Riddle Game",
-  "description": "Test your typing skills and logical thinking in this exciting game",
+  "name": "KeyQuest - Typing & Riddle Game",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#146C94",
-  "background_color": "#F6F1F1",
-  "orientation": "portrait-primary"
+  "theme_color": "#0e5f7d",
+  "background_color": "#eaf0f3"
 }

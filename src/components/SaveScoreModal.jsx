@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy } from 'lucide-react';
 import { TEXTS, GAME_CONFIG } from '../constants/texts';
 
 const SaveScoreModal = ({ isOpen, score, defaultName = '', onSave, onSkip }) => {
@@ -15,82 +13,59 @@ const SaveScoreModal = ({ isOpen, score, defaultName = '', onSave, onSkip }) => 
     }
   }, [isOpen, defaultName]);
 
+  if (!isOpen) return null;
+
   const handleSave = () => {
     const result = onSave(inputName);
-    if (result && !result.success) {
-      setError(result.error);
-    }
+    if (result && !result.success) setError(result.error);
   };
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          className="fixed inset-0 z-[60] flex items-center justify-center modal-backdrop p-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          <motion.div
-            className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full"
-            initial={{ scale: 0.8, opacity: 0, y: 50 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.8, opacity: 0, y: 50 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          >
-            <div className="text-center">
-              <div className="flex justify-center mb-4">
-                <Trophy className="h-12 w-12 text-primary" aria-hidden="true" />
-              </div>
-              <h2 className="text-2xl font-bold text-primary mb-4">{TEXTS.SAVE_SCORE_TITLE}</h2>
-              <p className="text-gray-600 mb-6">
-                Enter your name to save your score of {score} points!
-              </p>
+    <div className="scrim">
+      <div className="modal" role="dialog" aria-modal="true" aria-labelledby="saveTitle">
+        <div className="modal__hd">
+          <div>
+            <p>{TEXTS.SAVE_EYEBROW}</p>
+            <h3 id="saveTitle">{TEXTS.SAVE_SCORE_TITLE}</h3>
+          </div>
+          <button type="button" className="modal__x" onClick={onSkip} aria-label="Close">✕</button>
+        </div>
 
-              <input
-                type="text"
-                value={inputName}
-                onChange={(e) => {
-                  setInputName(e.target.value);
-                  setError(null);
-                }}
-                placeholder={TEXTS.ENTER_NAME_PLACEHOLDER}
-                className="w-full p-3 border-2 border-gray-300 rounded-xl mb-2 focus:border-primary focus:outline-none"
-                maxLength={GAME_CONFIG.MAX_PLAYER_NAME_LENGTH}
-                autoFocus
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && inputName.trim()) {
-                    handleSave();
-                  }
-                }}
-              />
+        <div className="modal__bd">
+          <div className="big" style={{ fontFamily: 'var(--f-mono)', fontWeight: 700, fontSize: 52, color: 'var(--deep)', lineHeight: 1, marginBottom: 6 }}>
+            {score.toLocaleString()}
+          </div>
+          <p className="sub">Name this run to put it on the board.</p>
 
-              {error && (
-                <div className="mb-4 rounded-lg bg-red-50 p-2 text-sm text-red-600">{error}</div>
-              )}
+          <div style={{ marginTop: 22 }}>
+            <input
+              className="field"
+              type="text"
+              value={inputName}
+              onChange={(e) => { setInputName(e.target.value); setError(null); }}
+              placeholder={TEXTS.ENTER_NAME_PLACEHOLDER}
+              maxLength={GAME_CONFIG.MAX_PLAYER_NAME_LENGTH}
+              autoFocus
+              onKeyDown={(e) => { if (e.key === 'Enter' && inputName.trim()) handleSave(); }}
+            />
+            {error && <p className="err">{error}</p>}
+          </div>
 
-              <div className="space-y-3 mt-4">
-                <button
-                  type="button"
-                  onClick={handleSave}
-                  disabled={!inputName.trim()}
-                  className="w-full bg-primary text-white py-3 px-6 rounded-xl font-semibold hover:bg-secondary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {TEXTS.SAVE_BUTTON}
-                </button>
-                <button
-                  type="button"
-                  onClick={onSkip}
-                  className="w-full text-gray-600 py-2 hover:text-gray-800 transition-colors"
-                >
-                  {TEXTS.SKIP_BUTTON}
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+          <div className="over__acts">
+            <button type="button" className="start start--sm" onClick={handleSave} disabled={!inputName.trim()}>
+              {TEXTS.SAVE_BUTTON}
+            </button>
+            <button type="button" className="btn" onClick={onSkip}>
+              {TEXTS.SKIP_BUTTON}
+            </button>
+          </div>
+
+          <div className="modal__ft">
+            <small>{TEXTS.BOARD_LOCAL_NOTE}</small>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

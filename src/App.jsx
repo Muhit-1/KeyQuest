@@ -1,23 +1,16 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { Keyboard as KeyboardIcon, LogOut, RotateCcw, Trophy } from 'lucide-react';
 import Keyboard from './components/Keyboard';
 import WordDisplay from './components/WordDisplay';
 import RiddleModal from './components/RiddleModal';
 import ScoreBoardModal from './components/ScoreBoardModal';
-import GameOverModal from './components/GameOverModal';
 import SaveScoreModal from './components/SaveScoreModal';
-import {
-  getBestScore,
-  getPlayerName,
-  saveScore,
-  setBestScore
-} from './utils/leaderboard';
+import OverScreen from './components/OverScreen';
+import { getBestScore, getPlayerName, saveScore, setBestScore } from './utils/leaderboard';
 import { validatePlayerName } from './utils/security';
 import riddlesData from './data/riddles.json';
 import { TEXTS, GAME_CONFIG } from './constants/texts';
+import logo from './assets/keyquest-logo.png';
 
-// Game states
 const GAME_STATES = {
   MENU: 'menu',
   PLAYING: 'playing',
@@ -25,9 +18,16 @@ const GAME_STATES = {
   GAME_OVER: 'game_over'
 };
 
-const ERROR_FLASH_MS = 350;
+const END_REASONS = {
+  TIME: 'time',
+  WRONG: 'wrong',
+  CLEARED: 'cleared'
+};
 
-// Sound effects (using Web Audio API)
+const ERROR_FLASH_MS = 350;
+const TYPE_SPEED_MS = 58;
+
+/* ─── sound ─────────────────────────────────────────────── */
 const playSound = (frequency, duration, type = 'sine') => {
   try {
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -39,13 +39,11 @@ const playSound = (frequency, duration, type = 'sine') => {
 
     oscillator.connect(gainNode);
     gainNode.connect(audioContext.destination);
-
     oscillator.frequency.value = frequency;
     oscillator.type = type;
 
     gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
     gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
-
     oscillator.start(audioContext.currentTime);
     oscillator.stop(audioContext.currentTime + duration);
   } catch (error) {
@@ -57,12 +55,9 @@ const playSound = (frequency, duration, type = 'sine') => {
 const pickRoundWords = (words = [], count = GAME_CONFIG.WORDS_PER_ROUND) => {
   const pool = [...words];
   const picked = [];
-
   while (pool.length > 0 && picked.length < count) {
-    const index = Math.floor(Math.random() * pool.length);
-    picked.push(pool.splice(index, 1)[0]);
+    picked.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
   }
-
   return picked;
 };
 
@@ -71,6 +66,51 @@ const clampDuration = (seconds) => {
   const value = Number.parseInt(seconds, 10);
   if (!Number.isFinite(value)) return GAME_CONFIG.INITIAL_TIME;
   return Math.min(Math.max(value, GAME_CONFIG.MIN_CUSTOM_TIME), GAME_CONFIG.MAX_CUSTOM_TIME);
+};
+
+const prefersReducedMotion = () =>
+  typeof window !== 'undefined' &&
+  window.matchMedia &&
+  window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+/* ─── hero that types itself ────────────────────────────── */
+const Hero = () => {
+  const [line1, setLine1] = useState(prefersReducedMotion() ? TEXTS.HERO_LINE_1 : '');
+  const [line2, setLine2] = useState(prefersReducedMotion() ? TEXTS.HERO_LINE_2 : '');
+
+  useEffect(() => {
+    if (prefersReducedMotion()) return undefined;
+
+    const t1 = TEXTS.HERO_LINE_1;
+    const t2 = TEXTS.HERO_LINE_2;
+    let i = 0;
+    let timer = null;
+
+    const step = () => {
+      if (i < t1.length) {
+        i += 1;
+        setLine1(t1.slice(0, i));
+        timer = setTimeout(step, TYPE_SPEED_MS);
+      } else if (i < t1.length + t2.length) {
+        i += 1;
+        setLine2(t2.slice(0, i - t1.length));
+        timer = setTimeout(step, TYPE_SPEED_MS);
+      }
+    };
+
+    timer = setTimeout(step, 420);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <h1 className="hero">
+      <span>{line1}</span>
+      <span className="lit">
+        {line2}
+        <i className="caret" />
+      </span>
+    </h1>
+  );
 };
 
 const App = () => {
@@ -83,8 +123,10 @@ const App = () => {
   const [playerHighScore, setPlayerHighScore] = useState(0);
   const [playerName, setPlayerName] = useState('');
   const [isNewBest, setIsNewBest] = useState(false);
+  const [endReason, setEndReason] = useState(END_REASONS.TIME);
+  const [wordsCleared, setWordsCleared] = useState(0);
 
-  // Typing game state
+  // Typing state
   const [currentRiddleIndex, setCurrentRiddleIndex] = useState(0);
   const [usedRiddleIndices, setUsedRiddleIndices] = useState([]);
   const [roundWords, setRoundWords] = useState([]);
@@ -93,39 +135,38 @@ const App = () => {
   const [hasError, setHasError] = useState(false);
   const [currentRound, setCurrentRound] = useState(1);
 
-  // Modal states
+  // Modals
   const [showScoreBoard, setShowScoreBoard] = useState(false);
-  const [showGameOver, setShowGameOver] = useState(false);
   const [showSaveScore, setShowSaveScore] = useState(false);
 
   // Refs
   const scoreRef = useRef(0);
+  const wordsRef = useRef(0);
   const errorTimeoutRef = useRef(null);
 
   const currentRiddle = riddlesData.riddles[currentRiddleIndex];
-  const currentWord = roundWords[currentWordIndex];
-  const nextWord = roundWords[currentWordIndex + 1];
-  const showRiddleModal = gameState === GAME_STATES.RIDDLE;
+  const currentWord = roundWords[currentWordIndex] || '';
+  const nextWord = roundWords[currentWordIndex + 1] || '';
+  const isMenu = gameState === GAME_STATES.MENU;
+  const isPlaying = gameState === GAME_STATES.PLAYING;
+  const isRiddle = gameState === GAME_STATES.RIDDLE;
+  const isOver = gameState === GAME_STATES.GAME_OVER;
+  const inRun = isPlaying || isRiddle;
 
-  // Keep a ref of the score so callbacks stay stable (a changing `endGame`
-  // identity would otherwise restart the countdown on every keystroke)
-  useEffect(() => {
-    scoreRef.current = score;
-  }, [score]);
+  // Keep refs in sync so callbacks can stay stable
+  useEffect(() => { scoreRef.current = score; }, [score]);
+  useEffect(() => { wordsRef.current = wordsCleared; }, [wordsCleared]);
 
-  // Load the stored personal best and player name once
   useEffect(() => {
     setPlayerHighScore(getBestScore());
     setPlayerName(getPlayerName());
   }, []);
 
-  // Clear a pending error flash on unmount
   useEffect(() => () => clearTimeout(errorTimeoutRef.current), []);
 
   const startRound = useCallback((riddleIndex) => {
-    const riddle = riddlesData.riddles[riddleIndex];
     setCurrentRiddleIndex(riddleIndex);
-    setRoundWords(pickRoundWords(riddle?.words));
+    setRoundWords(pickRoundWords(riddlesData.riddles[riddleIndex]?.words));
     setCurrentWordIndex(0);
     setTypedText('');
     setHasError(false);
@@ -138,11 +179,12 @@ const App = () => {
     setSelectedTime(duration);
     setScore(0);
     scoreRef.current = 0;
+    setWordsCleared(0);
+    wordsRef.current = 0;
     setTimeLeft(duration);
     setUsedRiddleIndices([firstRiddleIndex]);
     setCurrentRound(1);
     setIsNewBest(false);
-    setShowGameOver(false);
     setShowScoreBoard(false);
     setShowSaveScore(false);
     startRound(firstRiddleIndex);
@@ -150,14 +192,13 @@ const App = () => {
   }, [selectedTime, startRound]);
 
   const goToMenu = useCallback(() => {
-    setShowGameOver(false);
     setShowSaveScore(false);
     setTimeLeft(clampDuration(selectedTime));
     setGameState(GAME_STATES.MENU);
   }, [selectedTime]);
 
-  // End game - stable identity, reads the live score from a ref
-  const endGame = useCallback(() => {
+  // Stable identity - reads the live score from refs
+  const endGame = useCallback((reason = END_REASONS.TIME) => {
     const finalScore = scoreRef.current;
     const storedBest = getBestScore();
 
@@ -169,31 +210,24 @@ const App = () => {
       setIsNewBest(false);
     }
 
+    setEndReason(reason);
     setGameState(GAME_STATES.GAME_OVER);
-    setShowGameOver(true);
   }, []);
 
   // Countdown - one interval per playing session
   useEffect(() => {
-    if (gameState !== GAME_STATES.PLAYING) return undefined;
-
-    const intervalId = setInterval(() => {
-      setTimeLeft((prev) => Math.max(0, prev - 1));
-    }, 1000);
-
+    if (!isPlaying) return undefined;
+    const intervalId = setInterval(() => setTimeLeft((prev) => Math.max(0, prev - 1)), 1000);
     return () => clearInterval(intervalId);
-  }, [gameState]);
+  }, [isPlaying]);
 
-  // Time is up
   useEffect(() => {
-    if (gameState === GAME_STATES.PLAYING && timeLeft === 0) {
-      endGame();
-    }
-  }, [gameState, timeLeft, endGame]);
+    if (isPlaying && timeLeft === 0) endGame(END_REASONS.TIME);
+  }, [isPlaying, timeLeft, endGame]);
 
-  // Move to next word, or to the riddle once the round is typed out
   const moveToNextWord = useCallback(() => {
     setScore((prev) => prev + GAME_CONFIG.POINTS_PER_WORD);
+    setWordsCleared((prev) => prev + 1);
 
     if (currentWordIndex + 1 < roundWords.length) {
       setCurrentWordIndex((prev) => prev + 1);
@@ -206,20 +240,23 @@ const App = () => {
     }
   }, [currentWordIndex, roundWords.length]);
 
-  // Handle key press
+  /**
+   * Handles one keypress.
+   * @returns {boolean} true when the key matched (the deck uses this to flash).
+   */
   const handleKeyPress = useCallback((key) => {
-    if (gameState !== GAME_STATES.PLAYING || !currentWord || typeof key !== 'string') return;
+    if (!isPlaying || !currentWord || typeof key !== 'string') return true;
 
     if (key === 'BACKSPACE') {
       setTypedText((prev) => prev.slice(0, -1));
       setHasError(false);
-      return;
+      return true;
     }
 
     const targetChar = currentWord[typedText.length];
-    if (!targetChar) return;
+    if (!targetChar) return true;
 
-    // Case-insensitive: the on-screen keyboard has no Shift key
+    // Case-insensitive: the on-screen deck has no Shift key
     if (key.toLowerCase() === targetChar.toLowerCase()) {
       playSound(800, 0.1);
       clearTimeout(errorTimeoutRef.current);
@@ -227,27 +264,23 @@ const App = () => {
 
       const newTypedText = typedText + targetChar;
       setTypedText(newTypedText);
-
-      // A word only counts when every letter matches
-      if (newTypedText === currentWord) {
-        moveToNextWord();
-      }
-      return;
+      if (newTypedText === currentWord) moveToNextWord();
+      return true;
     }
 
-    // Wrong key: flash the letter red, take the penalty, do NOT advance
+    // Wrong key: flash the slot red, take the penalty, do NOT advance
     playSound(400, 0.15);
     setScore((prev) => Math.max(0, prev - GAME_CONFIG.POINTS_PENALTY_WRONG_KEY));
     setHasError(true);
     clearTimeout(errorTimeoutRef.current);
     errorTimeoutRef.current = setTimeout(() => setHasError(false), ERROR_FLASH_MS);
-  }, [gameState, currentWord, typedText, moveToNextWord]);
+    return false;
+  }, [isPlaying, currentWord, typedText, moveToNextWord]);
 
-  // Handle riddle answer
   const handleRiddleAnswer = useCallback((isCorrect) => {
     if (!isCorrect) {
       playSound(150, 0.8, 'sawtooth');
-      endGame();
+      endGame(END_REASONS.WRONG);
       return;
     }
 
@@ -259,7 +292,7 @@ const App = () => {
       .filter((index) => !usedRiddleIndices.includes(index));
 
     if (availableIndices.length === 0) {
-      endGame();
+      endGame(END_REASONS.CLEARED);
       return;
     }
 
@@ -273,21 +306,15 @@ const App = () => {
     setGameState(GAME_STATES.PLAYING);
   }, [usedRiddleIndices, selectedTime, startRound, endGame]);
 
-  // Save score to the local leaderboard
   const handleSaveScore = (name) => {
     const validation = validatePlayerName(name);
-    if (!validation.isValid) {
-      return { success: false, error: validation.error };
-    }
+    if (!validation.isValid) return { success: false, error: validation.error };
 
     const result = saveScore(validation.sanitized, score);
-    if (!result.success) {
-      return result;
-    }
+    if (!result.success) return result;
 
     setPlayerName(validation.sanitized);
     setShowSaveScore(false);
-    setShowGameOver(false);
     setGameState(GAME_STATES.MENU);
     return result;
   };
@@ -309,128 +336,90 @@ const App = () => {
     }
   };
 
-  const isMenu = gameState === GAME_STATES.MENU;
-  const isInGame = gameState === GAME_STATES.PLAYING || gameState === GAME_STATES.RIDDLE;
   const displayedTime = isMenu ? clampDuration(selectedTime) : timeLeft;
-  const roundProgress = roundWords.length
-    ? (currentWordIndex / roundWords.length) * 100
-    : 0;
+  const clockLow = inRun && timeLeft <= 10;
+  const hintKey = isPlaying ? (currentWord[typedText.length] || '') : '';
+  const wordProgress = currentWord.length ? (typedText.length / currentWord.length) * 100 : 0;
+  const overHeadline =
+    endReason === END_REASONS.WRONG ? TEXTS.OVER_WRONG_ANSWER
+      : endReason === END_REASONS.CLEARED ? TEXTS.OVER_ALL_CLEAR
+        : TEXTS.OVER_TIME_UP;
 
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-br from-white via-background to-accent/40">
-      {/* Header */}
-      <header className="flex shrink-0 flex-col items-center justify-between gap-4 p-4 sm:flex-row sm:gap-0 sm:p-6">
-        {/* Score */}
-        <div className="w-full rounded-xl bg-white/70 px-4 py-2 text-center shadow-lg backdrop-blur-sm sm:w-auto sm:min-w-[200px]">
-          <div className="text-xs text-gray-600 sm:text-sm">{TEXTS.SCORE_LABEL}</div>
-          <div className="text-xl font-bold text-primary sm:text-2xl">{score}</div>
-        </div>
-
-        {/* Title */}
-        <div className="text-center">
-          <h1 className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-xl font-bold leading-tight text-transparent transition-transform duration-300 hover:scale-105 sm:text-2xl md:text-3xl lg:text-4xl">
-            {TEXTS.APP_TITLE}
-          </h1>
-        </div>
-
-        {/* Timer & Actions */}
-        <div className="w-full text-center sm:w-auto sm:min-w-[200px]">
-          <div className="mb-2 rounded-xl bg-white/70 px-4 py-2 text-center shadow-lg backdrop-blur-sm">
-            <div className="text-xs text-gray-600 sm:text-sm">{TEXTS.TIME_LABEL}</div>
-            <div className={`text-xl font-bold sm:text-2xl ${timeLeft <= 10 && !isMenu ? 'text-red-500' : 'text-primary'}`}>
-              {displayedTime}
-              {TEXTS.SECONDS_UNIT}
-            </div>
+    <div className="shell">
+      {/* top rail */}
+      <header className="rail">
+        <div className="stats">
+          <div className="stat">
+            <span className="stat__k">{TEXTS.SCORE_LABEL}</span>
+            <span className="stat__v">{score.toLocaleString()}</span>
           </div>
+          <div className="stat__div" />
+          <div className="stat stat--muted">
+            <span className="stat__k">{TEXTS.BEST_LABEL}</span>
+            <span className="stat__v">{playerHighScore.toLocaleString()}</span>
+          </div>
+        </div>
 
-          {isMenu && (
-            <button
-              type="button"
-              onClick={() => setShowScoreBoard(true)}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-secondary px-4 py-2 text-xs font-medium text-white transition-colors hover:bg-primary sm:w-auto sm:text-sm"
-            >
-              <Trophy className="h-4 w-4" aria-hidden="true" />
-              {TEXTS.TOP_SCOREBOARD_BUTTON}
-            </button>
-          )}
+        <div className="mark">
+          <img className="mark__logo" src={logo} alt="" />
+          <span className="mark__text">{TEXTS.MARK_A}<em>{TEXTS.MARK_B}</em></span>
+        </div>
 
-          {isInGame && (
-            <div className="flex justify-center gap-2">
-              <button
-                type="button"
-                onClick={initializeGame}
-                className="inline-flex items-center justify-center gap-2 rounded-lg bg-secondary px-4 py-2 text-xs font-medium text-white transition-colors hover:bg-primary sm:text-sm"
-              >
-                <RotateCcw className="h-4 w-4" aria-hidden="true" />
-                {TEXTS.RESTART_BUTTON}
+        <div className="railR">
+          <div className={`clock${clockLow ? ' clock--low' : ''}`}>
+            <span className="clock__k">{TEXTS.TIME_LABEL}</span>
+            <span className="clock__v">{displayedTime}s</span>
+          </div>
+          <div className="stat__div" />
+          <div className="acts">
+            {!inRun && (
+              <button type="button" className="btn btn--ghost" onClick={() => setShowScoreBoard(true)}>
+                {TEXTS.SCORES_BUTTON}
               </button>
-              <button
-                type="button"
-                onClick={goToMenu}
-                className="inline-flex items-center justify-center gap-2 rounded-lg bg-white/70 px-4 py-2 text-xs font-medium text-gray-700 shadow transition-colors hover:bg-white sm:text-sm"
-              >
-                <LogOut className="h-4 w-4" aria-hidden="true" />
-                {TEXTS.QUIT_BUTTON}
-              </button>
-            </div>
-          )}
+            )}
+            {inRun && (
+              <>
+                <button type="button" className="btn" onClick={initializeGame}>
+                  {TEXTS.RESTART_BUTTON}
+                </button>
+                <button type="button" className="btn" onClick={goToMenu}>
+                  {TEXTS.QUIT_BUTTON}
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="flex flex-1 flex-col items-center justify-center px-4 py-6">
-        {/* Menu State */}
-        {isMenu && (
-          <motion.div
-            className="w-full max-w-2xl text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <motion.div
-              className="mb-8 flex justify-center"
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-            >
-              <KeyboardIcon className="h-20 w-20 text-primary sm:h-24 sm:w-24" aria-hidden="true" />
-            </motion.div>
+      {/* start */}
+      {isMenu && (
+        <main className="stage">
+          <div className="rise">
+            <p className="eyebrow">{TEXTS.EYEBROW}</p>
+            <Hero />
+            <p className="lede">{TEXTS.LEDE}</p>
 
-            <h2 className="mb-4 text-3xl font-bold text-primary sm:text-4xl">
-              {TEXTS.WELCOME_HEADING}
-            </h2>
-            <p className="mb-8 text-lg leading-relaxed text-gray-600">
-              {TEXTS.WELCOME_SUBTITLE}
-            </p>
-
-            {/* Time Selection */}
-            <div className="mb-8">
-              <p className="mb-4 font-semibold text-gray-700">{TEXTS.DURATION_HEADING}</p>
-              <div className="flex flex-wrap justify-center gap-3">
+            <div className="setup">
+              <span className="setup__k">{TEXTS.RUN_LENGTH_LABEL}</span>
+              <div className="segs" role="group" aria-label={TEXTS.RUN_LENGTH_LABEL}>
                 {GAME_CONFIG.TIME_PRESETS.map((time) => (
-                  <motion.button
+                  <button
                     key={time}
                     type="button"
+                    className="seg"
+                    aria-pressed={selectedTime === time && !customTime}
                     onClick={() => handlePresetTime(time)}
-                    className={`rounded-xl px-6 py-3 font-bold transition-all duration-300 ${
-                      selectedTime === time && !customTime
-                        ? 'scale-105 bg-primary text-white shadow-lg'
-                        : 'bg-white/70 text-gray-700 hover:bg-white'
-                    }`}
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.95 }}
                   >
-                    {time}
-                    {TEXTS.SECONDS_UNIT}
-                  </motion.button>
+                    {time}s
+                  </button>
                 ))}
               </div>
 
-              <div className="mt-4 flex items-center justify-center gap-2">
-                <label htmlFor="custom-time" className="text-sm font-medium text-gray-700">
-                  {TEXTS.CUSTOM_TIME_LABEL}
-                </label>
+              <label className="custom" htmlFor="customSec">
+                {TEXTS.CUSTOM_TIME_LABEL}
                 <input
-                  id="custom-time"
+                  id="customSec"
                   type="number"
                   inputMode="numeric"
                   min={GAME_CONFIG.MIN_CUSTOM_TIME}
@@ -438,107 +427,84 @@ const App = () => {
                   value={customTime}
                   onChange={handleCustomTime}
                   placeholder={TEXTS.CUSTOM_TIME_PLACEHOLDER}
-                  className={`w-24 rounded-xl border-2 bg-white/70 px-3 py-2 text-center font-semibold text-gray-800 focus:outline-none ${
-                    customTime ? 'border-primary' : 'border-gray-300 focus:border-primary'
-                  }`}
+                  aria-label="Custom run length in seconds"
                 />
-                <span className="text-sm text-gray-600">{TEXTS.SECONDS_LABEL}</span>
-              </div>
-              <p className="mt-2 text-xs text-gray-500">
-                {GAME_CONFIG.MIN_CUSTOM_TIME}-{GAME_CONFIG.MAX_CUSTOM_TIME} {TEXTS.SECONDS_LABEL}
-              </p>
-            </div>
+                {TEXTS.SECONDS_LABEL}
+              </label>
+              <span className="hint">
+                {GAME_CONFIG.MIN_CUSTOM_TIME}–{GAME_CONFIG.MAX_CUSTOM_TIME} {TEXTS.SECONDS_LABEL}
+              </span>
 
-            <motion.button
-              type="button"
-              onClick={initializeGame}
-              className="mx-auto w-full max-w-xs rounded-2xl bg-gradient-to-r from-primary to-secondary px-8 py-4 text-xl font-bold text-white shadow-xl transition-all duration-300 hover:shadow-2xl sm:w-auto"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {TEXTS.START_GAME_BUTTON}
-            </motion.button>
-          </motion.div>
-        )}
-
-        {/* Playing State */}
-        {isInGame && (
-          <div className="w-full max-w-4xl">
-            <WordDisplay
-              currentWord={currentWord}
-              typedText={typedText}
-              hasError={hasError}
-              showNextWord
-              nextWord={nextWord}
-            />
-
-            <div className="mt-6">
-              <Keyboard
-                onKeyPress={handleKeyPress}
-                disabled={gameState !== GAME_STATES.PLAYING}
-              />
-            </div>
-
-            {/* Progress indicator */}
-            <div className="mt-6 text-center">
-              <div className="mb-2 text-sm text-gray-600">
-                {TEXTS.ROUND_LABEL} {currentRound} of {riddlesData.riddles.length} &middot;{' '}
-                {TEXTS.WORD_LABEL} {Math.min(currentWordIndex + 1, roundWords.length)} of {roundWords.length}
-              </div>
-              <div className="mx-auto h-2 w-full max-w-md rounded-full bg-gray-200">
-                <motion.div
-                  className="h-2 rounded-full bg-gradient-to-r from-primary to-secondary"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${roundProgress}%` }}
-                  transition={{ duration: 0.4 }}
-                />
-              </div>
+              <button type="button" className="start" onClick={initializeGame}>
+                {TEXTS.START_GAME_BUTTON}
+              </button>
             </div>
           </div>
-        )}
-      </main>
+        </main>
+      )}
 
-      {/* Footer */}
-      <footer className="flex shrink-0 flex-col items-center justify-between gap-3 p-4 text-sm sm:flex-row sm:p-6">
-        <div className="w-full rounded-lg bg-white/70 px-4 py-2 text-center shadow-lg backdrop-blur-sm sm:w-auto sm:min-w-[200px]">
-          <div className="text-sm text-gray-600">{TEXTS.YOUR_BEST_LABEL}</div>
-          <div className="text-xl font-bold text-primary">{playerHighScore}</div>
-        </div>
+      {/* play */}
+      {inRun && (
+        <main className="stage">
+          <WordDisplay
+            currentWord={currentWord}
+            typedText={typedText}
+            hasError={hasError}
+            nextWord={nextWord}
+          />
 
-        <div className="text-xs font-medium text-gray-500">{TEXTS.FOOTER_VERSION}</div>
-      </footer>
+          <Keyboard onKeyPress={handleKeyPress} disabled={!isPlaying} hintKey={hintKey} />
 
-      {/* Modals */}
+          <div className="run">
+            <div className="rail-line">
+              <i style={{ width: `${wordProgress}%` }} />
+            </div>
+            <span className="run__k">
+              {TEXTS.ROUND_LABEL} <b>{currentRound}</b> of {riddlesData.riddles.length}
+              &nbsp;·&nbsp; {TEXTS.WORD_LABEL} <b>{Math.min(currentWordIndex + 1, roundWords.length)}</b> of {roundWords.length}
+            </span>
+            <div className="pips">
+              {roundWords.map((word, index) => (
+                <span className={`pip${index <= currentWordIndex ? ' on' : ''}`} key={`${word}-${index}`} />
+              ))}
+            </div>
+          </div>
+        </main>
+      )}
+
+      {/* end */}
+      {isOver && (
+        <OverScreen
+          score={score}
+          wordsCleared={wordsCleared}
+          headline={overHeadline}
+          isNewBest={isNewBest}
+          onSave={() => setShowSaveScore(true)}
+          onPlayAgain={initializeGame}
+          onMenu={goToMenu}
+        />
+      )}
+
+      <p className="foot">
+        {TEXTS.FOOT_PREFIX} <b>{TEXTS.FOOT_AUTHOR}</b>
+      </p>
+
+      {/* overlays */}
       <RiddleModal
-        isOpen={showRiddleModal}
+        isOpen={isRiddle}
         riddle={currentRiddle}
         onAnswer={handleRiddleAnswer}
         timeLeft={timeLeft}
       />
 
-      <ScoreBoardModal
-        isOpen={showScoreBoard}
-        onClose={() => setShowScoreBoard(false)}
-      />
-
-      <GameOverModal
-        isOpen={showGameOver}
-        score={score}
-        isNewBest={isNewBest}
-        onSave={() => {
-          setShowGameOver(false);
-          setShowSaveScore(true);
-        }}
-        onPlayAgain={initializeGame}
-        onBackToMenu={goToMenu}
-      />
+      <ScoreBoardModal isOpen={showScoreBoard} onClose={() => setShowScoreBoard(false)} />
 
       <SaveScoreModal
         isOpen={showSaveScore}
         score={score}
         defaultName={playerName}
         onSave={handleSaveScore}
-        onSkip={goToMenu}
+        onSkip={() => setShowSaveScore(false)}
       />
     </div>
   );

@@ -1,84 +1,71 @@
-
 export const TEXTS = {
-  // App Title and Branding
+  // Branding
   APP_TITLE: "KeyQuest",
-  APP_SUBTITLE: "Type and solve",
+  MARK_A: "Key",
+  MARK_B: "Quest",
 
-  // Landing Page
-  WELCOME_HEADING: "Welcome to KeyQuest!",
-  WELCOME_SUBTITLE: "Type words quickly, solve riddles, and climb the leaderboard! Test your typing skills and logical thinking in this exciting game.",
-  START_GAME_BUTTON: "Start Game",
-  DURATION_HEADING: "Select Game Duration:",
+  // Start screen
+  EYEBROW: "Typing · Riddles · Leaderboard",
+  HERO_LINE_1: "Type fast.",
+  HERO_LINE_2: "Think faster.",
+  LEDE: "Clear the word, crack the riddle, keep the clock alive. Pick how long your run should be.",
+  RUN_LENGTH_LABEL: "Run length",
   CUSTOM_TIME_LABEL: "Custom",
-  CUSTOM_TIME_PLACEHOLDER: "e.g. 90",
+  CUSTOM_TIME_PLACEHOLDER: "90",
   SECONDS_LABEL: "seconds",
+  START_GAME_BUTTON: "Start game",
 
-  // Header Labels
+  // Rail
   SCORE_LABEL: "Score",
+  BEST_LABEL: "Best",
   TIME_LABEL: "Time",
-  YOUR_BEST_LABEL: "Your Best",
-
-  // Buttons
-  TOP_SCOREBOARD_BUTTON: "Top Score Board",
-  SAVE_SCORE_BUTTON: "Save Score to Leaderboard",
-  PLAY_AGAIN_BUTTON: "Play Again",
-  BACK_TO_MENU_BUTTON: "Back to Menu",
-  REFRESH_SCORES_BUTTON: "Refresh Scores",
+  SCORES_BUTTON: "Scores",
   RESTART_BUTTON: "Restart",
   QUIT_BUTTON: "Quit",
 
-  // Game Over Modal
-  GAME_OVER_TITLE: "Game Over!",
-  FINAL_SCORE_LABEL: "Final Score",
-  NEW_HIGH_SCORE: "New High Score!",
-
-  // Save Score Modal
-  SAVE_SCORE_TITLE: "Save Your Score!",
-  ENTER_NAME_PLACEHOLDER: "Enter your name",
-  SAVE_BUTTON: "Save Score",
-  SKIP_BUTTON: "Skip",
-  SAVING_TEXT: "Saving...",
-
-  // Leaderboard
-  LEADERBOARD_TITLE: "Top Score Board",
-  LEADERBOARD_SUBTITLE: "Hall of Fame - Best Players",
-  NO_SCORES_TITLE: "No scores yet!",
-  NO_SCORES_MESSAGE: "Be the first to make it to the leaderboard!",
-  LOADING_MESSAGE: "Loading leaderboard...",
-  ERROR_MESSAGE: "Oops! Something went wrong",
-  TRY_AGAIN_BUTTON: "Try Again",
-  LEADERBOARD_LOCAL_NOTE: "Scores are stored on this device only.",
-
-  // Footer
-  FOOTER_VERSION: "KeyQuest v1.0",
-
-  // Progress Indicators
+  // Play screen
+  CHARACTERS_LABEL: "characters",
+  UP_NEXT_LABEL: "Up next",
   ROUND_LABEL: "Round",
   WORD_LABEL: "Word",
-  CHARACTERS_LABEL: "characters",
-  NEXT_WORD_LABEL: "Next word:",
+  DELETE_KEY: "DEL",
 
-  // Completion Messages
-  WORD_COMPLETE_TITLE: "Perfect!",
-  WORD_COMPLETE_MESSAGE: "Word completed successfully",
-  CONGRATULATIONS_TITLE: "Congratulations!",
-  SCORE_SAVED_MESSAGE: "Your score has been saved.",
+  // End screen
+  RUN_COMPLETE: "Run complete",
+  OVER_TIME_UP: "Time's up",
+  OVER_WRONG_ANSWER: "Wrong answer",
+  OVER_ALL_CLEAR: "All riddles cleared",
+  NEW_HIGH_SCORE: "New personal best",
+  PLAY_AGAIN_BUTTON: "Play again",
+  BACK_TO_MENU_BUTTON: "Back to menu",
+  SAVE_SCORE_BUTTON: "Save score",
 
-  // Riddle Modal
-  RIDDLE_TITLE: "Riddle Time!",
-  RIDDLE_CORRECT: "Correct!",
-  RIDDLE_WRONG: "Wrong Answer!",
-  RIDDLE_NEXT_ROUND: "Moving to next round in 2 seconds...",
+  // Riddle
+  RIDDLE_EYEBROW: "Round riddle",
+  RIDDLE_TITLE: "Riddle time",
+  RIDDLE_CORRECT: "Correct",
+  RIDDLE_WRONG: "Wrong answer",
+  RIDDLE_NEXT_ROUND: "Next round in a moment...",
 
-  // Rank Labels
-  CHAMPION: "Champion",
-  RUNNER_UP: "Runner-up",
-  THIRD_PLACE: "Third Place",
+  // Leaderboard
+  BOARD_EYEBROW: "Hall of fame",
+  BOARD_TITLE: "Top scores",
+  NO_SCORES_TITLE: "No runs recorded",
+  NO_SCORES_MESSAGE: "Finish a game and your score lands here.",
+  BOARD_LOCAL_NOTE: "Scores stay on this device",
+  REFRESH_SCORES_BUTTON: "Refresh",
   ANONYMOUS: "Anonymous",
 
-  // Units
-  POINTS_UNIT: "pts",
-  SECONDS_UNIT: "s"
+  // Save score
+  SAVE_EYEBROW: "Leaderboard",
+  SAVE_SCORE_TITLE: "Save your run",
+  ENTER_NAME_PLACEHOLDER: "Your name",
+  SAVE_BUTTON: "Save",
+  SKIP_BUTTON: "Skip",
+
+  // Footer
+  FOOT_PREFIX: "KeyQuest — built by",
+  FOOT_AUTHOR: "Muhit"
 };
 
 // Game Configuration Constants
@@ -92,7 +79,7 @@ export const GAME_CONFIG = {
   WORDS_PER_ROUND: 4,
   POINTS_PER_WORD: 5,
   POINTS_PER_RIDDLE: 20,
-  POINTS_PENALTY_WRONG_KEY: 3, // Points deducted for each wrong key
+  POINTS_PENALTY_WRONG_KEY: 3,
   MAX_PLAYER_NAME_LENGTH: 20,
   LEADERBOARD_LIMIT: 10
 };

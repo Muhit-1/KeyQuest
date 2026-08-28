@@ -72,18 +72,6 @@ The correct option turns green, a wrong pick turns red, and the run continues af
 
 ![Riddle result](docs/screenshots/04-result.png)
 
-### Run complete
-
-Final score, words cleared, and a badge when you beat your personal best.
-
-![Game over](docs/screenshots/05-game-over.png)
-
-### Leaderboard
-
-Top ten runs on this device, best first.
-
-![Leaderboard](docs/screenshots/06-leaderboard.png)
-
 ### Mobile
 
 The rail stacks, the deck scales down, and the whole board still fits at 375px.

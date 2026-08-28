@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/KeyQuest/static/css/main.55cef5d2.css",
+    "main.js": "/KeyQuest/static/js/main.19fe4116.js",
+    "static/media/keyquest-logo.png": "/KeyQuest/static/media/keyquest-logo.4725889cbd676bff294f.png",
+    "index.html": "/KeyQuest/index.html",
+    "main.55cef5d2.css.map": "/KeyQuest/static/css/main.55cef5d2.css.map",
+    "main.19fe4116.js.map": "/KeyQuest/static/js/main.19fe4116.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.55cef5d2.css",
+    "static/js/main.19fe4116.js"
+  ]
+}

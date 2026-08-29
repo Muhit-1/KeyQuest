@@ -13,6 +13,10 @@
   React 18 · Zero backend · Runs entirely in the browser
 </p>
 
+<p align="center">
+  <strong><a href="https://muhit-1.github.io/KeyQuest">▶ Live demo</a></strong>
+</p>
+
 ---
 
 ## Contents
@@ -42,41 +46,43 @@ KeyQuest is a browser typing game with a twist: the words you type are clues. Cl
 
 **There is no backend.** No database, no accounts, no API keys, no environment variables. Clone it, `npm install`, `npm start`, and you are playing. Scores are kept in your browser's `localStorage`.
 
+**Play it now:** [muhit-1.github.io/KeyQuest](https://muhit-1.github.io/KeyQuest) — no install needed.
+
 ---
 
 ## Screenshots
 
-> Screenshots live in [`docs/screenshots/`](docs/screenshots). Drop the files in with the names below and they will render here automatically.
+> Screenshots live in [`docs/screenshots/`](docs/screenshots).
 
 ### Start screen
 
 The hero types itself out, then you pick a run length — 30/45/60 seconds or any custom value.
 
-![Start screen](docs/screenshots/01-start.png)
+<img src="docs/screenshots/01-start.png" alt="Start screen" width="480" />
 
 ### Typing
 
 The word is shown as underlined slots. Typed letters turn teal, the active slot pulses, and the next key you need lifts and glows on the deck below.
 
-![Typing](docs/screenshots/02-typing.png)
+<img src="docs/screenshots/02-typing.png" alt="Typing" width="480" />
 
 ### Riddle
 
 Clear all four words in a round and the riddle behind them opens. Answer with a click or by pressing `1`–`4`.
 
-![Riddle](docs/screenshots/03-riddle.png)
+<img src="docs/screenshots/03-riddle.png" alt="Riddle" width="480" />
 
 ### Answer feedback
 
 The correct option turns green, a wrong pick turns red, and the run continues after a beat.
 
-![Riddle result](docs/screenshots/04-result.png)
+<img src="docs/screenshots/04-result.png" alt="Riddle result" width="480" />
 
 ### Mobile
 
 The rail stacks, the deck scales down, and the whole board still fits at 375px.
 
-![Mobile layout](docs/screenshots/07-mobile.png)
+<img src="docs/screenshots/07-mobile.png" alt="Mobile layout" width="240" />
 
 ---
 

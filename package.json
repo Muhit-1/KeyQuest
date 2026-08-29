@@ -48,5 +48,11 @@
   },
   "devDependencies": {
     "gh-pages": "^6.3.0"
+  },
+  "overrides": {
+    "uuid": "^14.0.2",
+    "yaml": "^2.9.0",
+    "underscore": "^1.13.8",
+    "@tootallnate/once": "^3.0.1"
   }
 }
